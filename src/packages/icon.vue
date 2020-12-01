@@ -1,6 +1,6 @@
 <template>
   <svg class="dc-icon" aria-hidden="true">
-    <use :xlink:href="`#icon-${icon}`" />
+    <use :xlink:href="`#icon${icon}`" />
   </svg>
 </template>
 <script>
