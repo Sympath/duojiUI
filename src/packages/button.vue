@@ -1,8 +1,16 @@
 <template>
-  <button class="dc-button" :class="btnClass" :type="type">
+  <button @click="($event)=>{
+      this.$emit('click',$event)
+    }" class="dc-button" :class="btnClass" :disabled="loading" :type="type">
+     <dc-icon
+
+        icon="loading"
+        v-if="loading"
+        class="icon"
+    ></dc-icon>
      <dc-icon
         :icon="icon"
-        v-if="icon"
+        v-else
         class="icon"
     ></dc-icon>
     <span v-if="this.$slots.default">
@@ -13,6 +21,10 @@
 <script>
 export default {
   props: {
+    loading: {
+      type: Boolean,
+      default: false
+    },
     icon: String,
     iconPosition: {
       type: String,
@@ -83,6 +95,9 @@ $active-color: #3a8ee6;
     border-color: $active-color;
     background-color: $background;
     outline: none;
+  }
+  &[disabled]{
+    cursor: not-allowed;
   }
   .icon {
     width: 16px;
