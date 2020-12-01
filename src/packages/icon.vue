@@ -1,13 +1,21 @@
 <template>
-  <div>icon</div>
+  <svg class="dc-icon" aria-hidden="true">
+    <use :xlink:href="`#icon-${icon}`" />
+  </svg>
 </template>
-
 <script>
+import "../styles/icon";
 export default {
-    name: 'dc-icon'
-}
+  props: {
+    icon: String
+  },
+  name: "dc-icon"
+};
 </script>
-
-<style>
-
+<style lang="scss">
+.dc-icon {
+  width: 24px;
+  height: 24px;
+  vertical-align: middle;
+}
 </style>
