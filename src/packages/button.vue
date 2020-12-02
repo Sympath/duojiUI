@@ -1,18 +1,18 @@
 <template>
   <button @click="($event)=>{
       this.$emit('click',$event)
-    }" class="dc-button" :class="btnClass" :disabled="loading" :type="type">
-     <dc-icon
+    }" class="dj-button" :class="btnClass" :disabled="loading" :type="type">
+     <dj-icon
 
         icon="loading"
         v-if="loading"
         class="icon"
-    ></dc-icon>
-     <dc-icon
+    ></dj-icon>
+     <dj-icon
         :icon="icon"
-        v-else
+        v-if="icon"
         class="icon"
-    ></dc-icon>
+    ></dj-icon>
     <span v-if="this.$slots.default">
         <slot></slot>
     </span>
@@ -58,11 +58,11 @@ export default {
   computed: {
     btnClass(){
       let btnClass = [];
-      btnClass.push(`dc-button-${this.iconPosition}`)
+      btnClass.push(`dj-button-${this.iconPosition}`)
       return btnClass;
     }
   },
-  name: "dc-button"
+  name: "dj-button"
 };
 </script>
 <style lang="scss">
@@ -73,7 +73,7 @@ $color: #606266;
 $border-color: #dcdfe6;
 $background: #ecf5ff;
 $active-color: #3a8ee6;
-.dc-button {
+.dj-button {
   border-radius: $border-radius;
   border: 1px solid $border-color;
   color: $color;

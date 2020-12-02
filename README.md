@@ -1,24 +1,15 @@
-# dachuui
+## duoji-ui
+[![github](https://img.shields.io/badge/npm%20package-0.1.1-green)](https://github.com/snowdreams1006)
 
-## Project setup
-```
-yarn install
-```
+## QuickStart
 
-### Compiles and hot-reloads for development
-```
-yarn serve
+```bash
+npm install dj-ui
 ```
 
-### Compiles and minifies for production
+## usage
+```vue
+import dachuUi from './packages/index.js';
+import 'dj-ui/dist/dj-ui.css'
+Vue.use(dachuUi);
 ```
-yarn build
-```
-
-### Run your unit tests
-```
-yarn test:unit
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

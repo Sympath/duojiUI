@@ -1,12 +1,12 @@
 <template>
-    <div class="dc-button-group">
+    <div class="dj-button-group">
         <slot></slot>
     </div>
 </template>
 
 <script>
 export default {
-    name:'dc-button-group',
+    name:'dj-button-group',
     mounted () {
     let children = this.$el.children
     for (let i = 0; i < children.length; i++) {
@@ -17,7 +17,7 @@ export default {
 </script>
 <style lang="scss">
 @import "../styles/_var.scss";
-.dc-button-group {
+.dj-button-group {
   display: inline-flex;
   vertical-align: middle;
   button {
