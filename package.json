@@ -1,6 +1,6 @@
 {
   "name": "duoji-ui",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": false,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -12,6 +12,7 @@
   "main": "./dist/dj-ui.umd.min.js",
   "dependencies": {
     "core-js": "^3.6.5",
+    "iview": "^3.5.4",
     "lru-cache": "^6.0.0",
     "vue": "^2.6.11"
   },
