@@ -18,7 +18,13 @@ export default {
             validator(value){
                  return oneOf(value, ['start', 'end', 'center', 'space-around', 'space-between']);
             }
-        }
+        },
+        align: {
+            type:String,
+            validator (value) {
+                return oneOf(value, ['start', 'end', 'center']);
+            }
+        },
     },
     data(){
         return {}
@@ -43,6 +49,13 @@ export default {
                 style = {
                     ...style,
                    justifyContent: key
+                }
+            }
+            if(this.align){
+                let key = ['start', 'end'].includes(this.align) ? 'flex-'+ this.align : this.align
+                style = {
+                    ...style,
+                   alignItems: key
                 }
             }
             return style;
