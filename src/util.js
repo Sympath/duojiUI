@@ -9,6 +9,5 @@
       map[key] = ctx(key)
       cb(key, map[key])
     }
-    console.log(map);
     return map;
   }

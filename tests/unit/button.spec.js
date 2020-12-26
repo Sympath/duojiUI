@@ -1,11 +1,11 @@
 // Vue提供的快速测试的方法
 import { expect } from 'chai'
-import Button from '@/packages/button';
+import Button from '@/packages/button/button';
 import Icon from '@/packages/icon';
 // @ts-ignore
 import { createApp } from 'vue/dist/vue.esm-bundler.js';
 
-describe('HelloWorld.vue', () => {
+describe('Button.vue', () => {
   it('测试插槽显示是否正常', () => {
     const container = document.createElement('div');
     const app = createApp({
