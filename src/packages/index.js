@@ -1,6 +1,6 @@
 
 import {requireByDir} from '@/util.js';
-
+import './less/common.less';
 
 
 const install = (Vue) => {

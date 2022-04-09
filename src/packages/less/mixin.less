@@ -1,0 +1,28 @@
+.for(@list, @code) {
+  & {
+    .loop(@i:1) when (@i =< length(@list)) {
+      @value: extract(@list, @i);
+      @code();
+      .loop(@i + 1);
+    }
+  .loop();
+  }
+}
+// 高版本（less大于3.6）时才能配置boolean使用 低版本只能自己参考如下注释实现
+/**
+& when (length(@columns) > 1) {
+  margin-left: 0;
+}
+& when (length(@columns) = 1) {
+  margin-left: 2;
+}
+*/
+.if (@condition: true, @trueCode: {}, @falseCode: {}) {
+  & when (@condition = true) {
+    @trueCode();
+  }
+  & when (@condition = false) {
+    @falseCode();
+  }
+}
+

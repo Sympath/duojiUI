@@ -1,0 +1,24 @@
+@import './mixin.less';
+@import './var.less';
+@import './layout.less';
+@import './muti-columns-layout.less';
+@import './base-component.less';
+@import './zhongtie.less';
+@import './center.less';
+
+// 居中
+.center {
+  text-align: center;
+}
+
+.gen-w(@n, @i: 1) when (@i =< @n) {
+  .w-@{i} {
+    width: 100%;
+    .item {
+      width: (100% / @i);
+    }
+  }
+  .gen-w(@n, (@i + 1));
+}
+.gen-w(5);
+

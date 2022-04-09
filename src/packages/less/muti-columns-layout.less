@@ -1,0 +1,111 @@
+@defaultColumns:  0, 0, 0, 0, 0, 0, 0, 0, 0;
+#layout {
+  // ## 两列布局
+  #muti-column {
+    // 浮动：组合margin负值
+    // 适合PC端  父容器  存在【右侧比左侧高，浮动导致塌陷】问题
+    .float-margin-mixin (@columns: @defaultColumns, @leftWidth:0) {
+        // background-color: black;
+            .for(@columns,{
+                    .column-@{i}{
+                        float: left;
+                        width: @value;
+                    }
+                }
+            );
+            .right {
+                margin-left: @leftWidth;
+            }
+    }
+    // 浮动：组合清浮动
+    // 适合PC端  父容器  需要在右边自适应模块的html外层再包裹一层right-fix类名元素
+    .float-clear-mixin (@columns: @defaultColumns @defaultColumns, @leftWidth: 0) {
+      .right-fix {
+        float: left;
+      }
+      .for(@columns,{
+                    .column-@{i}{
+                        float: left;
+                        width: @value;
+                    }
+                }
+            );
+      .right {
+
+      }
+    }
+    // 浮动：组合BFC
+    // 适合PC端  父容器  清浮动
+    .float-bfc-mixin (@columns: @defaultColumns, @leftWidth: 0) {
+       .for(@columns,{
+                    .column-@{i}{
+                        float: left;
+                        width: @value;
+                    }
+                }
+            );
+      .right {
+        float: left;
+        display: flex;
+      }
+    }
+    // 表格
+    // 适合需要等高的布局  父容器  table布局默认是等高布局
+    .table-mixin (@columns: @defaultColumns, @leftWidth: 0) {
+      display: table;
+      width: 100%;
+       .for(@columns,{
+                    .column-@{i}{
+                        display: table-cell;
+                        width: @value;
+                    }
+                }
+            );
+      .right {
+        display: table-cell;
+      }
+    }
+    // 定位
+    // 适合需要脱离文档流的布局  父容器
+    .position-mixin (@columns: @defaultColumns, @leftWidth: 0) {
+      position: relative;
+      .for(@columns,{
+                    .column-@{i}{
+                        width: @value;
+                        position: absolute;
+                    }
+                }
+            );
+      .right {
+        position: absolute;
+        left: @leftWidth;
+        right: 0;
+      }
+    }
+    // flex布局
+    // 适合不需要考虑兼容性的布局  父容器
+    .flex-mixin (@columns: @defaultColumns, @leftWidth: 0) {
+      display: flex;
+      .for(@columns,{
+                    .column-@{i}{
+                        width: @value;
+                    }
+                }
+            );
+      .right {
+        flex: 1;
+      }
+    }
+    // gird布局
+    // 适合不需要考虑兼容性的布局（目前更建议使用flex）  父容器
+    .gird-mixin (@leftWidth: 0) {
+      display: grid;
+      grid-template-columns: @leftWidth auto; // 列宽
+      grid-template-rows: repeat(2, 600px); // 列高
+      .left {
+      }
+      .right {
+      }
+    }
+  }
+}

@@ -1,0 +1,128 @@
+
+/** 居中相关  
+1. 命名规范：如果需要传参，则定义成mixin，命名后缀也需要带上这个，便于区分
+2. 每个方案的使用说明都至少存在如下信息
+面向场景 设置位置 缺点Or特点（可无）
+*/
+#center {
+  //>>>>>>>>>>>>>>>>>> 垂直居中
+  #y {
+    // 内联（inline）级别+已知高度  父容器设置  需要固定高度
+    .inline-mixin (@line-height: 0) {
+      line-height: @line-height;
+    }
+    // 块（block）级别+已知高度  父容器设置  需要固定高度
+    .block-mixin (@line-height: 0) {
+      .center-y-inline(@line-height: 0);
+      .item {
+        display: inline-block;
+      }
+    }
+    // flex布局级别+多子容器  父容器设置  兼容性
+    .flex {
+      display: flex;
+			align-items: center;
+    }
+    // 定位级别+脱离文档流+不定宽  自身设置  会脱离文档流+兼容性
+    .position {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%); // 存在多浏览器兼容性问题，所以需要写多套
+    }
+    // 定位级别+脱离文档流+定高  自身设置  会脱离文档流且需要定宽
+    .position-mixin (@height : 100%) {
+      position: absolute;
+      top: 50%;
+      margin-top: -@height/2;
+    }
+    // 定位级别+脱离文档流+包裹性 （最佳方案）  自身设置  会脱离文档流
+    .position-wrap {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+			margin: auto 0;
+    }
+  }
+  //>>>>>>>>>>>>>>>>>> 水平居中
+  #x {
+    // 内联（inline）级别 父容器设置
+    .inline {
+      text-align: center;
+    }
+    // 块（block）级别  自身设置
+    .block {
+			margin-left: auto;
+      margin-right: auto;
+    }
+    // flex布局级别+多子容器  父容器设置
+    .flex {
+      display: flex;
+			justify-content: center;
+    }
+    // 定位级别+脱离文档流+不定宽  自身设置
+    .position {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%); // 存在多浏览器兼容性问题，所以需要写多套
+    }
+    // 定位级别+脱离文档流+定宽  自身设置
+    .position-mixin (@width:100%) {
+      position: absolute;
+      left: 50%;
+      margin-left: -@width/2;
+    }
+    // 定位级别+脱离文档流+包裹性 （最佳方案）  自身设置
+    .position-wrap {
+      position: absolute;
+      left: 0;
+      right: 0;
+			margin: 0 auto;
+    }
+  }
+  // 已知高度
+  .inline-mixin(@line-height: 0) {
+    #center > #x > .inline;
+    #center > #y > .inline-mixin(@line-height)
+  }
+  // 块（block）级别  父容器设置+注意需要把子容器设置item的类名
+  .block-mixin (@line-height: 0) {
+    .center-x-block;
+    .center-y-block(@line-height)
+  }
+  // flex布局级别 多子容器  父容器设置
+  .flex {
+    #center > #x > .flex;
+    #center > #y > .flex;
+  }
+  // 定位级别  脱离文档流+定宽高  自身设置
+  .position-mixin (@width, @height: 0) {
+    .center-x-position(@width);
+    .center-y-position(@height);
+  }
+  // 定位级别+脱离文档流+不定宽  自身设置
+  .position {
+    #center > #x > .position();
+    #center > #y > .position();
+    transform: translate(-50%, -50%);
+  }
+  // 定位级别+脱离文档流  自身设置  利用了包裹性（最佳方案）
+  .position-wrap {
+    #center > #x > .position-wrap();
+    #center > #y > .position-wrap();
+    margin: auto;
+  }
+}
+
+
+
+// ========== 实现样式类
+.center-inline {
+  #center > .inline-mixin();
+}
+
+.center-position {
+  #center > .position;
+}
+.center-flex {
+  #center > .flex;
+}

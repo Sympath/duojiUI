@@ -3,7 +3,7 @@
   "version": "0.1.1",
   "private": false,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "test": "karma start",
@@ -11,8 +11,12 @@
   },
   "main": "./dist/dj-ui.umd.min.js",
   "dependencies": {
+    "copy-webpack-plugin": "^6.4.1",
     "core-js": "^3.6.5",
+    "element-ui": "^2.15.6",
     "iview": "^3.5.4",
+    "less": "^3.0.4",
+    "less-loader": "^5.0.0",
     "lru-cache": "^6.0.0",
     "vue": "^2.6.11",
     "vue-router": "^3.4.9"

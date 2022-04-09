@@ -1,0 +1,248 @@
+.df {
+  display: flex;
+}
+.df-justify {
+  .df;
+  justify-content: center;
+}
+.df-center {
+  .df-justify;
+  .df-ac;
+}
+.df-between {
+  .df;
+  justify-content: space-between;
+}
+.df-ac {
+  .df;
+  align-items: center;
+}
+
+.center-x {
+  text-align: center;
+}
+
+.avatar(@size) {
+  width: @size;
+  border-radius: 50%;
+}
+.bg {
+  background-size: auto 100%;
+  background-position: top;
+  background-repeat: no-repeat;
+}
+.bg-all(@img , @size:100% 100%) {
+  background-image: url("@{asset_cdn}/@{img}");
+  background-size: @size;
+}
+.bg-auto(@img , @size:100% 100%) {
+  background-image: url("@{asset_cdn}/@{img}");
+  .bg;
+}
+
+.horiz_center {
+  left: 50%;
+  transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  -o-transform: translateX(-50%);
+}
+.vertical_center {
+  top: 50%;
+  transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
+}
+.position_center {
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0);
+  -ms-transform: translate3d(-50%, -50%, 0);
+  -moz-transform: translate3d(-50%, -50%, 0);
+  -webkit-transform: translate3d(-50%, -50%, 0);
+  -o-transform: translate3d(-50%, -50%, 0);
+}
+
+.line-vertical(@height, @right, @color) {
+  &::after {
+    position: absolute;
+    display: inline-block;
+    height: @height;
+    right: -@right;
+    .vertical_center;
+    border-right: 1px solid  @color;
+    content: '';
+  }
+}
+.clearfix::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+/** 布局相关  
+1. 命名规范：如果需要传参，则定义成mixin，命名后缀也需要带上这个，便于区分
+2. 每个方案的使用说明都至少存在如下信息
+面向场景 设置位置 特点（可无）
+*/
+#layout {
+  // ## 两列布局
+  #two-column {
+    // 浮动：组合margin负值
+    // 适合PC端  父容器  存在【右侧比左侧高，浮动导致塌陷】问题
+    .float-margin-mixin (@leftWidth: 0) {
+      .left {
+        float: left;
+        width: @leftWidth;
+      }
+      .right {
+        margin-left: @leftWidth;
+      }
+    }
+    // 浮动：组合清浮动
+    // 适合PC端  父容器  需要在右边自适应模块的html外层再包裹一层right-fix类名元素
+    .float-clear-mixin (@leftWidth: 0) {
+      .left,
+      .right-fix {
+        float: left;
+      }
+      .left {
+        width: @leftWidth;
+      }
+      .right {
+      }
+    }
+    // 浮动：组合BFC flex
+    // 适合PC端  父容器  均浮动（最佳方案）
+    .float-bfc-mixin (@leftWidth: 0) {
+      .left,
+      .right-fix {
+        float: left;
+      }
+      .left {
+        width: @leftWidth;
+      }
+      .right {
+        display: flex;
+        // 或 overflow: hidden;
+      }
+    }
+    // 表格
+    // 适合需要等高的布局  父容器  table布局默认是等高布局
+    .table-mixin (@leftWidth: 0) {
+      display: table;
+      width: 100%;
+      .left {
+        display: table-cell;
+        width: @leftWidth;
+      }
+      .right {
+        display: table-cell;
+      }
+    }
+    // 定位
+    // 适合需要脱离文档流的布局  父容器
+    .position-mixin (@leftWidth: 0) {
+      position: relative;
+      .left {
+        position: absolute;
+        width: @leftWidth;
+      }
+      .right {
+        position: absolute;
+        left: @leftWidth;
+        right: 0;
+      }
+    }
+    // flex布局
+    // 适合不需要考虑兼容性的布局  父容器
+    .flex-mixin (@leftWidth: 0) {
+      display: flex;
+      .left {
+        width: @leftWidth;
+      }
+      .right {
+        flex: 1;
+      }
+    }
+    // gird布局
+    // 适合不需要考虑兼容性的布局（目前更建议使用flex）  父容器
+    .gird-mixin (@leftWidth: 0) {
+      display: grid;
+      grid-template-columns: @leftWidth auto; // 列宽
+      grid-template-rows: repeat(2, 600px); // 列高
+    }
+  }
+  // ## 三列布局
+  #three-column {
+    .holy-grail(@leftWidth:0, @rightWidth:0) {
+      /* 第1步: 三个容器同时设置浮动  - 在一行排列
+          放不下  left和right 掉下去
+        */
+      .center,
+      .left,
+      .right {
+        float: left;
+      }
+
+      /*  第2步 给父容器加内填充 -  放left和right 2个容器*/
+      .parent {
+        padding-left: @leftWidth;
+        padding-right: @rightWidth;
+      }
+
+      /* 第3步: 把left移动到原本的位置  -  left 在center（100%）的前面
+                  把right移动到原本的位置 -  right 在center的后面
+           技巧: margin负值  -  移动  
+                 定位方位    -  移动       
+        */
+      .left {
+        margin-left: -100%;
+        position: relative;
+        width: @leftWidth;
+        left: -@leftWidth;
+      }
+      .right {
+        width: @rightWidth;
+        margin-left: -@rightWidth;
+        position: relative;
+        right: -@rightWidth;
+      }
+      .center {
+        width: 100%;
+      }
+    }
+    .threesome-wing(@leftWidth:0, @rightWidth:0) {
+      /* 第1步: 三个容器同时设置浮动  - 在一行排列
+          放不下  left和right 掉下去
+        */
+      .center,
+      .left,
+      .right {
+        float: left;
+      }
+
+      /* 第2步: 给中间的容器的子容器设置margin外间距 => left和right 的位置给留出来*/
+      .inner {
+        margin-left: @leftWidth;
+        margin-right: @rightWidth;
+      }
+
+      /* 第3步: 把left移动到原本的位置  -  left 在center（100%）的前面
+            把right移动到原本的位置 -  right 在center的后面
+        技巧: margin负值  -  移动  
+        */
+      .left {
+        margin-left: -100%;
+      }
+      .right {
+        margin-left: -@rightWidth;
+      }
+      .center {
+        width: 100%;
+      }
+    }
+  }
+}

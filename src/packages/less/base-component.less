@@ -1,0 +1,40 @@
+// Other
+.card {
+  background: #fff;
+  border-radius: 12 * @ratio;
+}
+// 按钮
+.btn-base(@height: 49, @radius: 24) {
+  font-size: 16 * @ratio;
+  border-radius: @radius * @ratio;
+  height: @height * @ratio;
+  line-height: @height * @ratio;
+  text-align: center;
+  border: 1 * @ratio solid #c5dbff;
+}
+// 方位
+.btn-buttom(@space-around: 16) {
+  .btn-base();
+  position: fixed;
+  bottom: 26 * @ratio;
+  left: @space-around * @ratio;
+  right: @space-around * @ratio;
+}
+// 颜色
+.btn-primary {
+  background: #3f85fe;
+  color: #fff;
+}
+// 装饰
+@dots: {
+  orange: @orange;
+  blue: @blue;
+}
+
+.dot-orange {
+  display: inline-block;
+  width: 6 * @ratio;
+  height: 6 * @ratio;
+  background: @orange;
+  border-radius: 50%;
+}
